@@ -15,9 +15,17 @@ gpsjoined = JOIN gpsdata BY carid, gpsdeal BY carid;
 data = FOREACH gpsjoined GENERATE gpsdeal::carid AS carid:chararray, gpsdeal::timeon AS timeon:chararray, gpsdeal::timeoff AS timeoff:chararray, gpsdata::time AS time:chararray, gpsdata::lon AS lon:double, gpsdata::lat AS lat:double;
 
 --- Find seconds between ---
-(long)ABS(ISOSecondsBetween(timeon, time)) AS ontimediff:long;
-(long)ABS(ISOSecondsBetween(timeoff, time)) AS offtimediff:long;
+secbetween = FOREACH data GENERATE carid, timeon, (long)ABS(ISOSecondsBetween(timeon, time)) AS ontimediff:long, timoff, (long)ABS(ISOSecondsBetween(timeoff, time)) AS offtimediff:long, time, lon, lat;
 
+
+
+
+-- Filter converted data set (30 seconds) ---
+convdata = FOREACH secbetween GENERATE carid, timon, ontimediff, timeoff, offtimediff, time, lon, lat;
+filtereddata = FILTER convdata BY (ontimediff <= 30 AND offtimediff <=30);
+
+--- 
+timediff = FOREACH filtereddata GENERATE carid, timeon, 
 
 
 
