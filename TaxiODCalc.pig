@@ -15,8 +15,8 @@ gpsjoined = JOIN gpsdata BY carid, gpsdeal BY carid;
 data = FOREACH gpsjoined GENERATE gpsdeal::carid AS carid:chararray, gpsdeal::timeon AS timeon:chararray, gpsdeal::timeoff AS timeoff:chararray, gpsdata::time AS time:chararray, gpsdata::lon AS lon:double, gpsdata::lat AS lat:double;
 
 --- Find seconds between ---
-timediff = FOREACh data GENERATE ISOSecondsBetween(timeon, time) AS secs;
-(long)ABS(ISOSecondsBetween(downtime, time)) AS downtimediff:long;
+(long)ABS(ISOSecondsBetween(timeon, time)) AS ontimediff:long;
+(long)ABS(ISOSecondsBetween(timeoff, time)) AS offtimediff:long;
 
 
 
