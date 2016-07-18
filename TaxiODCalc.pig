@@ -1,5 +1,3 @@
---- Name: TaxiODCalc
---- Author: Julia Xu
 --- Created: 2016-07-15
 --- Last Modified: 2016-07-18
 --- Summary: Get taxi OD data from GPS and meter info
